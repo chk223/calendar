@@ -11,6 +11,6 @@
 
 > E-R 다이어그램
 > 
-> ![img_1.png](img_1.png)
+> ![erdimg1.png](src/main/resources/image/erdimg1.png)
 > 
 > 

@@ -19,27 +19,28 @@ import java.util.UUID;
 public class ScheduleController {
     private final CalendarService calendarService;
 
-    @PostMapping("/add")
+    ////REST API 작성 원칙
+    @PostMapping
     public void addSchedule(@RequestBody ScheduleInput scheduleInput) {
         log.info("input = {} " , scheduleInput);
         calendarService.createSchedule(scheduleInput);
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/all-schedule")
     public List<ScheduleDisplay> getAllSchedule() {
         return calendarService.findAllScheduleBySort();
     }
 
-    @GetMapping("/findSchedule")
+    @GetMapping("/schedule")
     public ScheduleDisplay getSchedule(UUID id) {
         return calendarService.findScheduleById(id);
     }
 
-    @PutMapping("/updateSchedule")
+    @PutMapping("/schedule")
     public void updateSchedule(@RequestBody ScheduleUpdateInput updateInput) {
         calendarService.updateSchedule(updateInput);
     }
-    @DeleteMapping("/deleteSchedule")
+    @DeleteMapping("/schedule")
     public void deleteSchedule(@RequestBody ScheduleDeleteInput deleteInput) {
         calendarService.deleteSchedule(deleteInput);
     }

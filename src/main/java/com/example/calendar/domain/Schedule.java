@@ -31,4 +31,8 @@ public class Schedule {
     public void setEditedAt(LocalDateTime editedAt) {
         this.editedAt = editedAt;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

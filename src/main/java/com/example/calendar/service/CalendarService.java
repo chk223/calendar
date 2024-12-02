@@ -1,16 +1,17 @@
 package com.example.calendar.service;
 
-import com.example.calendar.domain.Schedule;
+import com.example.calendar.dto.ScheduleDeleteInput;
 import com.example.calendar.dto.ScheduleDisplay;
 import com.example.calendar.dto.ScheduleInput;
+import com.example.calendar.dto.ScheduleUpdateInput;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public interface CalendarService {
-    public void createSchedule(ScheduleInput scheduleInput);
-    public List<ScheduleDisplay> findAllScheduleBySort();
-    public ScheduleDisplay findScheduleById(UUID id);
+    void createSchedule(ScheduleInput scheduleInput);
+    List<ScheduleDisplay> findAllScheduleBySort();
+    ScheduleDisplay findScheduleById(UUID id);
+    void updateSchedule(ScheduleUpdateInput updateInput);
+    void deleteSchedule(ScheduleDeleteInput deleteInput);
 }

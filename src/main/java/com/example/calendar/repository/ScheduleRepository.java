@@ -13,4 +13,5 @@ public interface ScheduleRepository {
     Schedule find(UUID id);
     void update(ScheduleUpdateInput updateInput);
     void delete(ScheduleDeleteInput deleteInput);
+    void clearStorage();
 }

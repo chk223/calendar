@@ -13,9 +13,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemoryWriterRepository implements WriterRepository{
     private final Map<UUID, Writer> writerStorage = new ConcurrentHashMap<>();
     @Override
-    public void join(Writer writer) {
+    public Writer join(Writer writer) {
         log.info("writer 가입 완료! id={}", writer.getId());
         writerStorage.put(writer.getId(), writer);
+        return writer;
     }
     @Override
     public Writer find(UUID id) {
@@ -35,5 +36,10 @@ public class MemoryWriterRepository implements WriterRepository{
     @Override
     public void delete(UUID id) {
         writerStorage.remove(id);
+    }
+
+    @Override
+    public void clearStorage() {
+        writerStorage.clear();
     }
 }

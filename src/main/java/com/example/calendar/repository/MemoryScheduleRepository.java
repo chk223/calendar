@@ -44,4 +44,9 @@ public class MemoryScheduleRepository implements ScheduleRepository {
     public void delete(ScheduleDeleteInput deleteInput) {
         scheduleStorage.remove(deleteInput.getId());
     }
+
+    @Override
+    public void clearStorage() {
+        scheduleStorage.clear();
+    }
 }

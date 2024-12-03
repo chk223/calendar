@@ -2,13 +2,11 @@ package com.example.calendar.repository;
 
 import com.example.calendar.domain.Schedule;
 import com.example.calendar.dto.ScheduleDeleteInput;
-import com.example.calendar.dto.ScheduleInput;
 import com.example.calendar.dto.ScheduleUpdateInput;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,8 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Slf4j
-public class MemoryCalendarRepository implements CalendarRepository {
-    Map<UUID, Schedule> scheduleStorage = new ConcurrentHashMap<>();
+public class MemoryScheduleRepository implements ScheduleRepository {
+    private final Map<UUID, Schedule> scheduleStorage = new ConcurrentHashMap<>();
 
     @Override
     public void create(Schedule schedule) {
@@ -39,8 +37,7 @@ public class MemoryCalendarRepository implements CalendarRepository {
     public void update(ScheduleUpdateInput updateInput) {
         Schedule targetSchedule = scheduleStorage.get(updateInput.getId());
         targetSchedule.setTodo(updateInput.getTodo());
-        targetSchedule.setName(updateInput.getName());
-        targetSchedule.setEditedAt(LocalDateTime.now());
+        targetSchedule.setUpdatedAt(LocalDateTime.now());
     }
 
     @Override

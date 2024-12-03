@@ -31,16 +31,16 @@ public class ScheduleController {
         return calendarService.findAllScheduleBySort();
     }
 
-    @GetMapping("/schedule")
+    @GetMapping
     public ScheduleDisplay getSchedule(UUID id) {
         return calendarService.findScheduleById(id);
     }
 
-    @PutMapping("/schedule")
+    @PutMapping
     public void updateSchedule(@RequestBody ScheduleUpdateInput updateInput) {
         calendarService.updateSchedule(updateInput);
     }
-    @DeleteMapping("/schedule")
+    @DeleteMapping
     public void deleteSchedule(@RequestBody ScheduleDeleteInput deleteInput) {
         calendarService.deleteSchedule(deleteInput);
     }

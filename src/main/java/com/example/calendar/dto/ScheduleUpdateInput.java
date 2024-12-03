@@ -7,13 +7,11 @@ import java.util.UUID;
 public class ScheduleUpdateInput {
     private UUID id;
     private String todo;
-    private String name;
     private String password;
 
-    public ScheduleUpdateInput(UUID id, String todo, String name, String password) {
+    public ScheduleUpdateInput(UUID id, String todo,String password) {
         this.id = id;
         this.todo = todo;
-        this.name = name;
         this.password = password;
     }
 }

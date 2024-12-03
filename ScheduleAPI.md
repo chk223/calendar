@@ -1,6 +1,6 @@
 <a id="top"></a>
-> # Calendar API
-> ## api 링크<br>
+> # Calendar API - Schedule
+> ## schedule api 링크<br>
 > [일정추가](#일정-추가)<br>
 > [모든 일정 조회](#모든-일정-조회)<br>
 > [특정 일정 조회](#특정-일정-조회)<br>
@@ -19,7 +19,7 @@
 > ## Request:
 > 
 > {<br> "todo" : "What should I do?",<br>
-> "name" : "Kim", <br>
+> "writerId" : "d0614652-a3ea-4d1d-bef6-73955cb188a9", <br>
 >"password" : "123" <br>}
 > 
 > ## Response:
@@ -100,7 +100,6 @@
 > {<br>
 "id": "d985c1a1-6e0c-466a-853f-c322a64182da",<br>
 "todo": "I should go home",<br>
-"name": "Lee",<br>
 "password": "123"<br>
 }
 >

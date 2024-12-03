@@ -7,7 +7,7 @@ import com.example.calendar.dto.ScheduleUpdateInput;
 import java.util.List;
 import java.util.UUID;
 
-public interface CalendarRepository {
+public interface ScheduleRepository {
     void create(Schedule schedule);
     List<Schedule> findAll();
     Schedule find(UUID id);

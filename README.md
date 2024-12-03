@@ -1,11 +1,12 @@
 # calendar
 
-> [API 명세서](API.md)
+> [Schedule API 명세서](ScheduleAPI.md)<br>
+> [Writer API 명세서](WriterAPI.md)<br>
 >  
 >
 
 > E-R 다이어그램
 > 
-> ![erdimg1.png](src/main/resources/image/erdimg1.png)
+> ![erdimg1.png](src/main/resources/image/erdimg2.png)
 > 
 > 

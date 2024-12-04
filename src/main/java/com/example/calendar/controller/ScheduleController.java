@@ -1,9 +1,6 @@
 package com.example.calendar.controller;
 
-import com.example.calendar.dto.ScheduleDeleteInput;
-import com.example.calendar.dto.ScheduleDisplay;
-import com.example.calendar.dto.ScheduleInput;
-import com.example.calendar.dto.ScheduleUpdateInput;
+import com.example.calendar.dto.*;
 import com.example.calendar.service.CalendarService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +24,8 @@ public class ScheduleController {
     }
 
     @GetMapping("/all-schedule")
-    public List<ScheduleDisplay> getAllSchedule() {
-        return calendarService.findAllScheduleBySort();
+    public Page<ScheduleDisplay> getAllSchedule(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return calendarService.findAllScheduleBySort(page-1, size);
     }
 
     @GetMapping

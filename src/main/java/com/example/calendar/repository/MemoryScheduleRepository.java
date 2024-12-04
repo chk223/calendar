@@ -7,9 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -24,8 +22,18 @@ public class MemoryScheduleRepository implements ScheduleRepository {
     }
 
     @Override
-    public List<Schedule> findAll() {
-        return scheduleStorage.values().stream().toList();
+    public List<Schedule> findAll(int startPoint, int size) {
+        if(startPoint >= scheduleStorage.size()) return new ArrayList<>();
+        return scheduleStorage.values().stream()
+                .sorted(Comparator.comparing(Schedule::getUpdatedAt))  // 최신 업데이트 날짜를 기준으로 정렬해서 반환해줌
+                .skip(startPoint)
+                .limit(size)
+                .toList();
+    }
+
+    @Override
+    public int countAll() {
+        return scheduleStorage.size();
     }
 
     @Override

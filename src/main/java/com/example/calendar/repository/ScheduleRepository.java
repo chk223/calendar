@@ -9,7 +9,8 @@ import java.util.UUID;
 
 public interface ScheduleRepository {
     void create(Schedule schedule);
-    List<Schedule> findAll();
+    List<Schedule> findAll(int startPoint, int size);
+    int countAll();
     Schedule find(UUID id);
     void update(ScheduleUpdateInput updateInput);
     void delete(ScheduleDeleteInput deleteInput);

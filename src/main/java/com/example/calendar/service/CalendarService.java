@@ -1,16 +1,13 @@
 package com.example.calendar.service;
 
-import com.example.calendar.dto.ScheduleDeleteInput;
-import com.example.calendar.dto.ScheduleDisplay;
-import com.example.calendar.dto.ScheduleInput;
-import com.example.calendar.dto.ScheduleUpdateInput;
+import com.example.calendar.dto.*;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface CalendarService {
     void createSchedule(ScheduleInput scheduleInput);
-    List<ScheduleDisplay> findAllScheduleBySort();
+    Page<ScheduleDisplay> findAllScheduleBySort(int page, int size);
     ScheduleDisplay findScheduleById(UUID id);
     void updateSchedule(ScheduleUpdateInput updateInput);
     void deleteSchedule(ScheduleDeleteInput deleteInput);

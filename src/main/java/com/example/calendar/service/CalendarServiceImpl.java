@@ -1,7 +1,10 @@
 package com.example.calendar.service;
 
 import com.example.calendar.domain.Schedule;
+import com.example.calendar.domain.Writer;
 import com.example.calendar.dto.*;
+import com.example.calendar.exception.ApiException;
+import com.example.calendar.exception.ErrorMessage;
 import com.example.calendar.repository.ScheduleRepository;
 import com.example.calendar.repository.WriterRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -45,34 +49,58 @@ public class CalendarServiceImpl implements CalendarService{
      */
     private List<ScheduleDisplay> getScheduleDisplays(List<Schedule> scheduleList) {
         return scheduleList.stream()
-                .map(schedule -> new ScheduleDisplay(schedule.getTodo(), writerRepository.find(schedule.getWriterId()).getName(), schedule.getCreatedAt(), schedule.getUpdatedAt()))  // schedule -> scheduleDisplay
+                .map(this::getScheduleDisplay)  // schedule -> scheduleDisplay
                 .collect(Collectors.toList());
     }
     @Override
     public ScheduleDisplay findScheduleById(UUID id) {
-        Schedule schedule = scheduleRepository.find(id);
-        if(schedule == null) {
-            log.warn("해당 id를 가진 할 일이 목록에 없습니다. 입력한 id={}",id);
-            return null;
+        Schedule schedule = Optional.ofNullable(scheduleRepository.find(id))
+                .orElseThrow(() -> {
+                    log.warn("해당 id를 가진 할 일이 목록에 없습니다. 입력한 id={}", id);
+                    ErrorMessage errorMessage = ErrorMessage.SCHEDULE_NOT_FOUND;
+                    return new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
+                });
+        return getScheduleDisplay(schedule);
+    }
+
+    /**
+     * schedule 객체를 scheduleDisplay로 변환
+     * @param schedule
+     * @return scheduleDisplay 객체
+     */
+    private ScheduleDisplay getScheduleDisplay(Schedule schedule) {
+        Writer writer = writerRepository.find(schedule.getWriterId());
+        if(writer == null) {//writerId가 있는지 예외처리!
+            ErrorMessage errorMessage = ErrorMessage.WRITER_NOT_FOUND;
+            throw new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
         }
-        else return new ScheduleDisplay(schedule.getTodo(), writerRepository.find(schedule.getWriterId()).getName(), schedule.getCreatedAt(), schedule.getUpdatedAt());
+        return new ScheduleDisplay(schedule.getTodo(), writer.getName(), schedule.getCreatedAt(), schedule.getUpdatedAt());
     }
 
     @Override
     public void updateSchedule(ScheduleUpdateInput updateInput) {
         Schedule schedule = scheduleRepository.find(updateInput.getId());
-        if(schedule.getPassword().equals(updateInput.getPassword())) {
-            scheduleRepository.update(updateInput);
-        }
-        else log.warn("수정 실패! 비밀번호가 잘못 입력되었습니다! 입력한 비밀번호 = {}",updateInput.getPassword());
+        validatePassword(schedule, updateInput.getPassword());
+        scheduleRepository.update(updateInput);
     }
 
     @Override
     public void deleteSchedule(ScheduleDeleteInput deleteInput) {
         Schedule schedule = scheduleRepository.find(deleteInput.getId());
-        if(schedule.getPassword().equals(deleteInput.getPassword())) {
-            scheduleRepository.delete(deleteInput);
+        validatePassword(schedule, deleteInput.getPassword());
+        scheduleRepository.delete(deleteInput);
+    }
+
+    /**
+     * 삭제 대상의 비밀번호와 입력 받은 비밀번호를 비교하여 비밀번호 검증
+     * @param schedule 수정/삭제 할 대상
+     * @param password 입력 받은 비밀번호
+     */
+    private void validatePassword(Schedule schedule, String password) {
+        if (!schedule.getPassword().equals(password)) {
+            log.info("비밀번호 검증 실패! 입력한 비밀번호 = {}", password);
+            ErrorMessage errorMessage = ErrorMessage.PASSWORD_IS_WRONG;
+            throw new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
         }
-        else log.warn("수정 실패! 비밀번호가 잘못 입력되었습니다! 입력한 비밀번호 = {}",deleteInput.getPassword());
     }
 }

@@ -8,20 +8,14 @@ import com.example.calendar.dto.ScheduleInput;
 import com.example.calendar.dto.ScheduleUpdateInput;
 import com.example.calendar.repository.ScheduleRepository;
 import com.example.calendar.repository.WriterRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class CalendarServiceImplTest {
     @Autowired
@@ -66,12 +60,12 @@ class CalendarServiceImplTest {
         scheduleRepository.create(schedule3);
 
         //when
-        List<Schedule> scheduleList = scheduleRepository.findAll(2,2);
-//        List<Schedule> scheduleList = scheduleRepository.findAll(4,2); // 페이지 범위 밖 요청
+//        List<Schedule> scheduleList = scheduleRepository.findAll(2,2);
+        List<Schedule> scheduleList = scheduleRepository.findAll(4,2); // 페이지 범위 밖 요청
         List<ScheduleDisplay> scheduleDisplays = scheduleList.stream()
                 .map(schedule -> new ScheduleDisplay(schedule.getTodo(), writerRepository.find(schedule.getWriterId()).getName(), schedule.getCreatedAt(), schedule.getUpdatedAt()))  // 변환
                 .sorted(Comparator.comparing(ScheduleDisplay::getEditedAt).reversed())  // 정렬
-                .collect(Collectors.toList());
+                .toList();
         //then
 //        assertThat(scheduleDisplays.size()).isEqualTo(1);
         assertThat(scheduleDisplays.isEmpty()).isTrue();// 페이지 범위 밖 요청시 빈 리스트 반환 여부 테스트

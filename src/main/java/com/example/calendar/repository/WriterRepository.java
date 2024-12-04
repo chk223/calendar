@@ -1,6 +1,8 @@
 package com.example.calendar.repository;
 
 import com.example.calendar.domain.Writer;
+import com.example.calendar.dto.WriterDeleteInput;
+import com.example.calendar.dto.WriterUpdateInput;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,15 +30,15 @@ public interface WriterRepository {
 
     /**
      * 작성자 정보 갱신
-     * @param writer 갱신된 작성자 정보를 담고 있는 객체
+     * @param updateInput 갱신할 작성자 정보를 담고 있는 객체
      */
-    void update(Writer writer);
+    void update(WriterUpdateInput updateInput);
 
     /**
      * 작성자 정보 삭제
      * @param id 고유 식별 id
      */
-    void delete(UUID id);
+    void delete(WriterDeleteInput deleteInput);
 
     /**
      * 테스트 코드를 위한 메모리 저장소 비우는 기능

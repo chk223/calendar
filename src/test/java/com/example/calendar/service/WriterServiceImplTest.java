@@ -54,7 +54,7 @@ class WriterServiceImplTest {
         writer.setName(updateInput.getName());
         writer.setEmail(updateInput.getEmail());
         writer.setUpdatedAt(LocalDateTime.now());
-        writerRepository.update(targetWriter);
+        writerRepository.update(updateInput);
         Writer writer3 = writerRepository.find(updateInput.getId());
         //then
         assertThat(writer3.getEmail()).isEqualTo("email");
@@ -106,7 +106,7 @@ class WriterServiceImplTest {
 
         WriterDeleteInput deleteInput = new WriterDeleteInput(writer1.getId());
         //when
-        writerRepository.delete(deleteInput.getId());
+        writerRepository.delete(deleteInput);
         //then
         assertThat(writerRepository.findAll().size()).isEqualTo(1);
     }

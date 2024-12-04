@@ -1,5 +1,6 @@
 package com.example.calendar.service;
 
+import com.example.calendar.domain.Schedule;
 import com.example.calendar.domain.Writer;
 import com.example.calendar.dto.*;
 import com.example.calendar.repository.WriterRepository;
@@ -26,12 +27,8 @@ public class WriterServiceImpl implements WriterService{
     }
 
     @Override
-    public void editWriterInfo(WriterUpdateInput input) {
-        Writer writer = writerRepository.find(input.getId());
-        writer.setName(input.getName());
-        writer.setEmail(input.getEmail());
-        writer.setUpdatedAt(LocalDateTime.now());
-        writerRepository.update(writer);
+    public void editWriterInfo(WriterUpdateInput updateInput) {
+        writerRepository.update(updateInput);
     }
 
     @Override
@@ -55,6 +52,6 @@ public class WriterServiceImpl implements WriterService{
 
     @Override
     public void withdraw(WriterDeleteInput deleteInput) {
-        writerRepository.delete(deleteInput.getId());
+        writerRepository.delete(deleteInput);
     }
 }

@@ -1,5 +1,9 @@
 package com.example.calendar.domain;
 
+import com.example.calendar.validation.ValidMessage;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 

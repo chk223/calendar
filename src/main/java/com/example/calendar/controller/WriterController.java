@@ -5,8 +5,12 @@ import com.example.calendar.dto.WriterDisplay;
 import com.example.calendar.dto.WriterInput;
 import com.example.calendar.dto.WriterUpdateInput;
 import com.example.calendar.service.WriterService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.MethodParameter;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +28,12 @@ public class WriterController {
      * @param writerInput 등록 할 작성자 정보
      */
     @PostMapping("/sign-up")
-    public void signUp(@RequestBody WriterInput writerInput) {
+    public void signUp(@RequestBody @Valid WriterInput writerInput, BindingResult result) throws NoSuchMethodException, MethodArgumentNotValidException {
+        if (result.hasErrors()) {
+            // 검증 오류 -> MethodArgumentNotValidException을 던짐
+            throw new MethodArgumentNotValidException(
+                    new MethodParameter(this.getClass().getMethod("signUp", WriterInput.class, BindingResult.class), 0), result);
+        }
         writerService.signUpWriter(writerInput);
     }
 
@@ -52,7 +61,12 @@ public class WriterController {
      * @param updateInput 작성자 정보 수정을 위한 데이터
      */
     @PutMapping
-    public void editInfo(@RequestBody WriterUpdateInput updateInput) {
+    public void editInfo(@RequestBody @Valid WriterUpdateInput updateInput, BindingResult result) throws NoSuchMethodException, MethodArgumentNotValidException {
+        if (result.hasErrors()) {
+            // 검증 오류 -> MethodArgumentNotValidException을 던짐
+            throw new MethodArgumentNotValidException(
+                    new MethodParameter(this.getClass().getMethod("editInfo", WriterUpdateInput.class, BindingResult.class), 0), result);
+        }
         writerService.editWriterInfo(updateInput);
     }
 
@@ -61,7 +75,12 @@ public class WriterController {
      * @param deleteInput 작성자 객체 삭제를 위한 데이터
      */
     @DeleteMapping
-    public void withdraw(@RequestBody WriterDeleteInput deleteInput) {
+    public void withdraw(@RequestBody @Valid WriterDeleteInput deleteInput, BindingResult result) throws NoSuchMethodException, MethodArgumentNotValidException {
+        if (result.hasErrors()) {
+            // 검증 오류 -> MethodArgumentNotValidException을 던짐
+            throw new MethodArgumentNotValidException(
+                    new MethodParameter(this.getClass().getMethod("withdraw", WriterDeleteInput.class, BindingResult.class), 0), result);
+        }
         writerService.withdraw(deleteInput);
     }
 

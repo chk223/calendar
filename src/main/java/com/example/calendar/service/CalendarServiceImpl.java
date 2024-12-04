@@ -42,6 +42,17 @@ public class CalendarServiceImpl implements CalendarService{
         return new Page<>(scheduleDisplayList,totalCountOfSchedule,pageRequest.getPage(),pageRequest.getSize());
     }
 
+    @Override
+    public List<ScheduleDisplay> findScheduleByWriterId(UUID id) {
+        List<Schedule> scheduleList = Optional.ofNullable(scheduleRepository.findByWriterId(id))
+                .orElseThrow(()-> {
+                    log.warn("해당 id의 작성자가 작성 한 할 일이 목록에 없습니다. 입력한 id={}", id);
+                    ErrorMessage errorMessage = ErrorMessage.SCHEDULE_NOT_FOUND;
+                    return new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
+                });
+        return getScheduleDisplays(scheduleList);
+    }
+
     /**
      * schedule List를 scheduleDisplay List로 변환
      * @param scheduleList 주어진 리스트
@@ -80,6 +91,12 @@ public class CalendarServiceImpl implements CalendarService{
     @Override
     public void updateSchedule(ScheduleUpdateInput updateInput) {
         Schedule schedule = scheduleRepository.find(updateInput.getId());
+        if (schedule == null) {
+            // schedule이 존재하지 않을 경우 예외 던짐
+            log.warn("해당 id를 가진 할 일이 목록에 없습니다. 입력한 id={}", updateInput.getId());
+            ErrorMessage errorMessage = ErrorMessage.SCHEDULE_NOT_FOUND;
+            throw new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
+        }
         validatePassword(schedule, updateInput.getPassword());
         scheduleRepository.update(updateInput);
     }

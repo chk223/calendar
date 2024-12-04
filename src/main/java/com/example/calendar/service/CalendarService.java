@@ -21,6 +21,13 @@ public interface CalendarService {
     Page<ScheduleDisplay> findAllScheduleBySort(int page, int size);
 
     /**
+     * 작성자 아이디로 해당 작석자가 작성한 일정들 반환
+     * @param id 작성자 아이디(고유 식별자)
+     * @return 해당 작성자가 작성한 일정 리스트
+     */
+    List<ScheduleDisplay> findScheduleByWriterId(UUID id);
+
+    /**
      * 일정의 고유 식별자를 통해 일정 정보 조회
      * @param id 고유 식별자
      * @return ScheduleDisplay

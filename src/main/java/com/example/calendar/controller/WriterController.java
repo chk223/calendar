@@ -18,22 +18,48 @@ import java.util.UUID;
 @RequestMapping("/writer")
 public class WriterController {
     private final WriterService writerService;
+
+    /**
+     * 작성자 등록
+     * @param writerInput 등록 할 작성자 정보
+     */
     @PostMapping("/sign-up")
     public void signUp(@RequestBody WriterInput writerInput) {
         writerService.signUpWriter(writerInput);
     }
+
+    /**
+     * 모든 작성자 조회
+     * @return 작성자 정보를 담은 리스트
+     */
     @GetMapping("/all-writer")
     public List<WriterDisplay> getAllWriter () {
         return writerService.writerList();
     }
+
+    /**
+     * 고유 식별자를 통해 조회 한 특정 작성자 정보
+     * @param id 고유 식별자
+     * @return 특정 작성자 정보
+     */
     @GetMapping
     public WriterDisplay getWriterInfo(UUID id) {
         return writerService.writerInfo(id);
     }
+
+    /**
+     * 작성자 정보 수정
+     * @param updateInput 작성자 정보 수정을 위한 데이터
+     */
     @PutMapping
     public void editInfo(@RequestBody WriterUpdateInput updateInput) {
         writerService.editWriterInfo(updateInput);
     }
+
+    /**
+     * 작성자 삭제
+     * @param deleteInput 작성자 객체 삭제를 위한 데이터
+     */
     @DeleteMapping
     public void withdraw(@RequestBody WriterDeleteInput deleteInput) {
         writerService.withdraw(deleteInput);

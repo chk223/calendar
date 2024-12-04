@@ -1,17 +1,20 @@
 package com.example.calendar.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
 public class Schedule {
-    private UUID id;
+    private final UUID id;
+    @Setter
     private String todo;
-    private UUID writerId;
-    private String password;
-    private LocalDateTime createdAt;
+    private final UUID writerId;
+    private final String password;
+    private final LocalDateTime createdAt;
+    @Setter
     private LocalDateTime updatedAt;
 
     public Schedule(String todo, UUID writerId, String password) {
@@ -23,11 +26,4 @@ public class Schedule {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public void setTodo(String todo) {
-        this.todo = todo;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }

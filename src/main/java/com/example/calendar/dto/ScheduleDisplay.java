@@ -7,10 +7,10 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 public class ScheduleDisplay {
-    private String todo;
-    private String name;
-    private String createdAt;
-    private String editedAt;
+    private final String todo;
+    private final String name;
+    private final String createdAt;
+    private final String editedAt;
 
     public ScheduleDisplay(String todo, String name, LocalDateTime createdAt, LocalDateTime editedAt) {
         this.todo = todo;

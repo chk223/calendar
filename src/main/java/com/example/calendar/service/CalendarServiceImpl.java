@@ -26,10 +26,11 @@ public class CalendarServiceImpl implements CalendarService{
 
     @Override
     public void createSchedule(ScheduleInput scheduleInput) {
-        Schedule schedule = new Schedule(scheduleInput.getTodo(),scheduleInput.getWriterId(),
-                scheduleInput.getPassword());
+        Writer writer = findWriter(scheduleInput.getWriterId());
+        Schedule schedule = new Schedule(scheduleInput.getTodo(),writer.getId(), scheduleInput.getPassword());
         scheduleRepository.create(schedule);
     }
+
     @Override
     public Page<ScheduleDisplay> findAllScheduleBySort(int page, int size) {
         int totalCountOfSchedule = scheduleRepository.countAll();
@@ -42,6 +43,75 @@ public class CalendarServiceImpl implements CalendarService{
         return new Page<>(scheduleDisplayList,totalCountOfSchedule,pageRequest.getPage(),pageRequest.getSize());
     }
 
+    @Override
+    public List<ScheduleDisplay> findScheduleByWriterId(UUID id) {
+        List<Schedule> scheduleList = getSchedulesByWriterId(id);
+        return getScheduleDisplays(scheduleList);
+    }
+
+    @Override
+    public ScheduleDisplay findScheduleById(UUID id) {
+        Schedule schedule = getScheduleById(id);
+        return getScheduleDisplay(schedule);
+    }
+
+    @Override
+    public void updateSchedule(ScheduleUpdateInput updateInput) {   //optional을 쓰면 형 변환이 강제화되기 때문에 null체크를 잊어버리지 않을 수 있음!
+        Schedule schedule = findschedule(updateInput.getId());
+        validatePassword(schedule, updateInput.getPassword());
+        scheduleRepository.update(updateInput);
+    }
+
+    @Override
+    public void deleteSchedule(ScheduleDeleteInput deleteInput) {
+        Schedule schedule = findschedule(deleteInput.getId());
+        validatePassword(schedule, deleteInput.getPassword());
+        scheduleRepository.delete(deleteInput);
+    }
+
+    /**
+     * 일정 id를 통해 특정 일정 조회
+     * @param id 찾고자 하는 일정의 id
+     * @return 해당 일정 객
+     */
+    private Schedule getScheduleById(UUID id) {
+        return scheduleRepository.find(id)
+                .orElseThrow(() -> {
+                    log.warn("해당 id를 가진 할 일이 목록에 없습니다. 입력한 id={}", id);
+                    ErrorMessage errorMessage = ErrorMessage.SCHEDULE_NOT_FOUND;
+                    return new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
+                });
+    }
+
+    /**
+     * 작성자 id를 통해 일정 조회. 결과가 없으면 예외를 던짐
+     * @param id 작성자 id
+     * @return 작성자가 작성한 일정 리스트
+     */
+    private List<Schedule> getSchedulesByWriterId(UUID id) {
+        return Optional.ofNullable(scheduleRepository.findByWriterId(id))
+                .orElseThrow(()-> {
+                    log.warn("해당 id의 작성자가 작성 한 할 일이 목록에 없습니다. 입력한 id={}", id);
+                    ErrorMessage errorMessage = ErrorMessage.SCHEDULE_NOT_FOUND;
+                    return new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
+                });
+    }
+
+
+    /**
+     * 작성자의 id를 통해 작성자 조회
+     * @param id 작성자 id
+     * @return 작성자 객체
+     */
+    private Writer findWriter(UUID id) {
+        return writerRepository.find(id)
+                .orElseThrow(() -> {
+                    log.warn("해당 id를 가진 할 일이 목록에 없습니다. 입력한 id={}", id);
+                    ErrorMessage errorMessage = ErrorMessage.WRITER_NOT_FOUND;
+                    return new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
+                });
+    }
+
     /**
      * schedule List를 scheduleDisplay List로 변환
      * @param scheduleList 주어진 리스트
@@ -52,24 +122,14 @@ public class CalendarServiceImpl implements CalendarService{
                 .map(this::getScheduleDisplay)  // schedule -> scheduleDisplay
                 .collect(Collectors.toList());
     }
-    @Override
-    public ScheduleDisplay findScheduleById(UUID id) {
-        Schedule schedule = Optional.ofNullable(scheduleRepository.find(id))
-                .orElseThrow(() -> {
-                    log.warn("해당 id를 가진 할 일이 목록에 없습니다. 입력한 id={}", id);
-                    ErrorMessage errorMessage = ErrorMessage.SCHEDULE_NOT_FOUND;
-                    return new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
-                });
-        return getScheduleDisplay(schedule);
-    }
 
     /**
-     * schedule 객체를 scheduleDisplay로 변환
-     * @param schedule
+     * 일정 객체를 scheduleDisplay 객체로 변환
+     * @param schedule 일정 객체
      * @return scheduleDisplay 객체
      */
     private ScheduleDisplay getScheduleDisplay(Schedule schedule) {
-        Writer writer = writerRepository.find(schedule.getWriterId());
+        Writer writer = findWriter(schedule.getWriterId());
         if(writer == null) {//writerId가 있는지 예외처리!
             ErrorMessage errorMessage = ErrorMessage.WRITER_NOT_FOUND;
             throw new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
@@ -77,18 +137,18 @@ public class CalendarServiceImpl implements CalendarService{
         return new ScheduleDisplay(schedule.getTodo(), writer.getName(), schedule.getCreatedAt(), schedule.getUpdatedAt());
     }
 
-    @Override
-    public void updateSchedule(ScheduleUpdateInput updateInput) {
-        Schedule schedule = scheduleRepository.find(updateInput.getId());
-        validatePassword(schedule, updateInput.getPassword());
-        scheduleRepository.update(updateInput);
-    }
-
-    @Override
-    public void deleteSchedule(ScheduleDeleteInput deleteInput) {
-        Schedule schedule = scheduleRepository.find(deleteInput.getId());
-        validatePassword(schedule, deleteInput.getPassword());
-        scheduleRepository.delete(deleteInput);
+    /**
+     * id를 통해 일정을 조회
+     * @param id 찾고자 하는 일정의 id
+     * @return 찾은 일정
+     */
+    private Schedule findschedule(UUID id) {
+        return scheduleRepository.find(id)
+                .orElseThrow(() -> {
+                    ErrorMessage errorMessage = ErrorMessage.SCHEDULE_NOT_FOUND;
+                    log.warn("해당 id를 가진 할 일이 목록에 없습니다. 입력한 id={}", id);
+                    return new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
+                });
     }
 
     /**

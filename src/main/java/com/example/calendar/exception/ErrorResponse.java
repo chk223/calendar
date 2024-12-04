@@ -2,13 +2,21 @@ package com.example.calendar.exception;
 
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class ErrorResponse {
-    private int statusCode;
-    private String message;
+    private final int statusCode;
+    private final String message;
+    private int errorCode;
 
     public ErrorResponse(int statusCode, String message) {
         this.statusCode = statusCode;
         this.message = message;
+    }
+    public ErrorResponse(int statusCode, String message, int errorCode) {
+        this.statusCode = statusCode;
+        this.message = message;
+        this.errorCode = errorCode;
     }
 }

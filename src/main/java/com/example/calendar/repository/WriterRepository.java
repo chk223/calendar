@@ -5,6 +5,7 @@ import com.example.calendar.dto.WriterDeleteInput;
 import com.example.calendar.dto.WriterUpdateInput;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface WriterRepository {
@@ -20,7 +21,7 @@ public interface WriterRepository {
      * @param id 고유 식별자
      * @return 작성자 객체
      */
-    Writer find(UUID id);
+    Optional<Writer> find(UUID id);
 
     /**
      * 모든 작성자 조회
@@ -36,7 +37,7 @@ public interface WriterRepository {
 
     /**
      * 작성자 정보 삭제
-     * @param id 고유 식별 id
+     * @param deleteInput 식별 정보를 담고 있는 객체
      */
     void delete(WriterDeleteInput deleteInput);
 

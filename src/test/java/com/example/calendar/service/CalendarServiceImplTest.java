@@ -12,10 +12,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
-import static org.assertj.core.api.Assertions.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class CalendarServiceImplTest {
     @Autowired
@@ -63,7 +65,7 @@ class CalendarServiceImplTest {
 //        List<Schedule> scheduleList = scheduleRepository.findAll(2,2);
         List<Schedule> scheduleList = scheduleRepository.findAll(4,2); // 페이지 범위 밖 요청
         List<ScheduleDisplay> scheduleDisplays = scheduleList.stream()
-                .map(schedule -> new ScheduleDisplay(schedule.getTodo(), writerRepository.find(schedule.getWriterId()).getName(), schedule.getCreatedAt(), schedule.getUpdatedAt()))  // 변환
+                .map(schedule -> new ScheduleDisplay(schedule.getTodo(), writerRepository.find(schedule.getWriterId()).orElseThrow().getName(), schedule.getCreatedAt(), schedule.getUpdatedAt()))  // 변환
                 .sorted(Comparator.comparing(ScheduleDisplay::getEditedAt).reversed())  // 정렬
                 .toList();
         //then
@@ -85,7 +87,7 @@ class CalendarServiceImplTest {
         scheduleRepository.create(schedule1);
         //when
         UUID id = schedule2.getId();
-        Schedule schedule = scheduleRepository.find(id);
+        Schedule schedule = scheduleRepository.find(id).orElseThrow();
         //then
         assertThat(schedule).isEqualTo(schedule2);
     }
@@ -100,12 +102,12 @@ class CalendarServiceImplTest {
         scheduleRepository.create(schedule1);
         ScheduleUpdateInput updateInput = new ScheduleUpdateInput(schedule1.getId(), "my-modified-todo", "my-pw");
         //when
-        Schedule schedule = scheduleRepository.find(updateInput.getId());
+        Schedule schedule = scheduleRepository.find(updateInput.getId()).orElseThrow();
         if(schedule.getPassword().equals(updateInput.getPassword())) {
             scheduleRepository.update(updateInput);
         }
         //then
-        Schedule schedule2 = scheduleRepository.find(schedule1.getId());
+        Schedule schedule2 = scheduleRepository.find(schedule1.getId()).orElseThrow();
         assertThat(schedule2.getTodo()).isEqualTo(updateInput.getTodo());
     }
 
@@ -123,7 +125,7 @@ class CalendarServiceImplTest {
         scheduleRepository.create(schedule1);
         ScheduleDeleteInput deleteInput = new ScheduleDeleteInput(schedule2.getId(),schedule2.getPassword());
         //when
-        Schedule schedule = scheduleRepository.find(deleteInput.getId());
+        Schedule schedule = scheduleRepository.find(deleteInput.getId()).orElseThrow();
         if(schedule.getPassword().equals(deleteInput.getPassword())) {
             scheduleRepository.delete(deleteInput);
         }

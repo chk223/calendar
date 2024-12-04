@@ -6,20 +6,16 @@ import com.example.calendar.dto.WriterDisplay;
 import com.example.calendar.dto.WriterInput;
 import com.example.calendar.dto.WriterUpdateInput;
 import com.example.calendar.repository.WriterRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class WriterServiceImplTest {
@@ -50,12 +46,12 @@ class WriterServiceImplTest {
         writerRepository.join(writer);
         WriterUpdateInput updateInput= new WriterUpdateInput(writer.getId(),"name","email");
         //when
-        Writer targetWriter = writerRepository.find(updateInput.getId());
+        Writer targetWriter = writerRepository.find(updateInput.getId()).orElseThrow();
         writer.setName(updateInput.getName());
         writer.setEmail(updateInput.getEmail());
         writer.setUpdatedAt(LocalDateTime.now());
         writerRepository.update(updateInput);
-        Writer writer3 = writerRepository.find(updateInput.getId());
+        Writer writer3 = writerRepository.find(updateInput.getId()).orElseThrow();
         //then
         assertThat(writer3.getEmail()).isEqualTo("email");
         assertThat(writer3.getName()).isEqualTo("name");
@@ -75,7 +71,7 @@ class WriterServiceImplTest {
         List<WriterDisplay> sortedWriters = writers.stream()
                 .map(writer -> new WriterDisplay(writer.getName(), writer.getEmail(), writer.getJoinedAt(), writer.getUpdatedAt()))  // 변환
                 .sorted(Comparator.comparing(WriterDisplay::getUpdatedAt).reversed())  // 정렬
-                .collect(Collectors.toList());
+                .toList();
         //then
         assertThat(sortedWriters.size()).isEqualTo(2);
     }
@@ -87,7 +83,7 @@ class WriterServiceImplTest {
         Writer writer = new Writer(input.getName(),input.getEmail());
         writerRepository.join(writer);
         //when
-        Writer foundWriter = writerRepository.find(writer.getId());
+        Writer foundWriter = writerRepository.find(writer.getId()).orElseThrow();
         WriterDisplay writerDisplay = new WriterDisplay(foundWriter.getName(), foundWriter.getEmail(), foundWriter.getJoinedAt(), foundWriter.getUpdatedAt());
         //then
         assertThat(writerDisplay.getEmail()).isEqualTo(writer.getEmail());

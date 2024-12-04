@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
@@ -22,8 +23,8 @@ public class MemoryWriterRepository implements WriterRepository{
         return writer;
     }
     @Override
-    public Writer find(UUID id) {
-        return writerStorage.get(id);
+    public Optional<Writer> find(UUID id) {
+        return Optional.of(writerStorage.get(id));
     }
 
     @Override

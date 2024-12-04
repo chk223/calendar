@@ -9,19 +9,19 @@ public class Page<T> {
     /**
      * 데이터
      */
-    private List<T> content;
+    private final List<T> content;
     /**
      * 총 데이터 개수
      */
-    private int totalDataCount;
+    private final int totalDataCount;
     /**
      * 전체 페이지 수
      */
-    private int totalPages;
+    private final int totalPages;
     /**
      * 현재 페이지
      */
-    private int nowPage;
+    private final int nowPage;
 
     public Page(List<T> content, int totalDataCount, int page, int size) {
         this.content = content;

@@ -7,15 +7,15 @@ public class PageRequest {
     /**
      * 현재 페이지
      */
-    private int page;
+    private final int page;
     /**
      * 페이지 사이즈
      */
-    private int size;
+    private final int size;
     /**
      * 페이지 시작 지점 -> sql 쿼리 offset 값
      */
-    private int startPoint;
+    private final int startPoint;
 
     public PageRequest(int page, int size) {
         this.page = page;

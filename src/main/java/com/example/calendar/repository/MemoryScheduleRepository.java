@@ -18,7 +18,7 @@ public class MemoryScheduleRepository implements ScheduleRepository {
     @Override
     public void create(Schedule schedule) {
         scheduleStorage.put(schedule.getId(), schedule);
-        log.info("id= {}" , schedule.getId());
+        log.info("schedule id= {}" , schedule.getId());
     }
 
     @Override
@@ -37,8 +37,15 @@ public class MemoryScheduleRepository implements ScheduleRepository {
     }
 
     @Override
-    public Schedule find(UUID id) {
-        return scheduleStorage.get(id);
+    public Optional<Schedule> find(UUID id) {
+        return Optional.of(scheduleStorage.get(id));
+    }
+
+    @Override
+    public List<Schedule> findByWriterId(UUID id) {
+        return scheduleStorage.values().stream().filter(schedule -> schedule.getWriterId().equals(id))
+                .sorted(Comparator.comparing(Schedule::getUpdatedAt))
+                .toList();
     }
 
     @Override

@@ -7,10 +7,10 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 public class WriterDisplay {
-    private String name;
-    private String email;
-    private String joinedAt;
-    private String updatedAt;
+    private final String name;
+    private final String email;
+    private final String joinedAt;
+    private final String updatedAt;
 
     public WriterDisplay(String name, String email, LocalDateTime joinedAt, LocalDateTime updatedAt) {
         this.name = name;

@@ -3,6 +3,9 @@ package com.example.calendar.service;
 import com.example.calendar.domain.Schedule;
 import com.example.calendar.domain.Writer;
 import com.example.calendar.dto.*;
+import com.example.calendar.exception.ApiException;
+import com.example.calendar.exception.ErrorMessage;
+import com.example.calendar.exception.ErrorResponse;
 import com.example.calendar.repository.WriterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,12 +49,25 @@ public class WriterServiceImpl implements WriterService{
 
     @Override
     public WriterDisplay writerInfo(UUID id) {
-        Writer writer = writerRepository.find(id);
+        Writer writer = getWriterById(id);
         return new WriterDisplay(writer.getName(), writer.getEmail(), writer.getJoinedAt(), writer.getUpdatedAt());
     }
 
     @Override
     public void withdraw(WriterDeleteInput deleteInput) {
         writerRepository.delete(deleteInput);
+    }
+
+    /**
+     * id를 통해 작성자 객체 찾기
+     * @param id 찾고자 하는 작성자 id
+     * @return 찾은 작성자 객체
+     */
+    private Writer getWriterById(UUID id) {
+        return writerRepository.find(id).orElseThrow(() -> {
+            log.warn("해당 id를 가진 작성자가 없습니다. 입력한 id={}", id);
+            ErrorMessage errorMessage = ErrorMessage.WRITER_NOT_FOUND;
+            return new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
+        });
     }
 }

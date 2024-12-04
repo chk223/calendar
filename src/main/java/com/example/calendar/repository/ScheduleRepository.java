@@ -5,6 +5,7 @@ import com.example.calendar.dto.ScheduleDeleteInput;
 import com.example.calendar.dto.ScheduleUpdateInput;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ScheduleRepository {
@@ -33,7 +34,14 @@ public interface ScheduleRepository {
      * @param id 고유 식별자
      * @return 조회 한 일정
      */
-    Schedule find(UUID id);
+    Optional<Schedule> find(UUID id);
+
+    /**
+     * 작성자 아이디를 통해 해당 작성자가 작성한 일정 모두 조회
+     * @param id 작성자 아이디(고유 식별자)
+     * @return 작성자가 작성한 일정 리스트
+     */
+    List<Schedule> findByWriterId(UUID id);
 
     /**
      * 일정 수정

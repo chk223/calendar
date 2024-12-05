@@ -49,6 +49,13 @@ public class MemoryScheduleRepository implements ScheduleRepository {
     }
 
     @Override
+    public List<Schedule> findByWriterId(UUID id) {
+        return scheduleStorage.values().stream().filter(schedule -> schedule.getWriterId().equals(id))
+                .sorted(Comparator.comparing(Schedule::getUpdatedAt))
+                .toList();
+    }
+
+    @Override
     public void update(ScheduleUpdateInput updateInput) {
         Schedule targetSchedule = scheduleStorage.get(updateInput.getId());
         targetSchedule.setTodo(updateInput.getTodo());

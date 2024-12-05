@@ -1,17 +1,17 @@
 package com.example.calendar.service;
 
-import com.example.calendar.domain.Schedule;
 import com.example.calendar.domain.Writer;
-import com.example.calendar.dto.*;
+import com.example.calendar.dto.WriterDeleteInput;
+import com.example.calendar.dto.WriterDisplay;
+import com.example.calendar.dto.WriterInput;
+import com.example.calendar.dto.WriterUpdateInput;
 import com.example.calendar.exception.ApiException;
 import com.example.calendar.exception.ErrorMessage;
-import com.example.calendar.exception.ErrorResponse;
 import com.example.calendar.repository.WriterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

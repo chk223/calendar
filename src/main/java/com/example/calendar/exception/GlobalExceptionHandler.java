@@ -16,18 +16,28 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleApiException(ApiException e) {
         List<String> errorField = e.getErrorField();
         if(errorField != null && !errorField.isEmpty()) {// 검증 오류 처리
-            int errorCode = 0;
-            String errorMessage = "입력 값이 잘못되었습니다.";
-            if(errorField.contains("id")) errorCode = 101;
-            else if(errorField.contains("password")) errorCode = 102;
-            else if(errorField.contains("email")) errorCode = 103;
-            else errorCode = 100;
-            ErrorResponse errorResponse = new ErrorResponse(e.getStatus().value(), errorMessage, errorCode);
-            return new ResponseEntity<>(errorResponse,e.getStatus());
+            return setErrorResponseForValidation(e, errorField);
         }
         // 일반 API 오류 처리
         ErrorResponse errorResponse = new ErrorResponse(e.getStatus().value(), e.getMessage());
         return new ResponseEntity<>(errorResponse,e.getStatus());
+    }
+
+    /**
+     * 검증 오류 처리
+     * @param e Exception 객체
+     * @param errorField 예외가 난 필드
+     * @return 예외가 난 필드에 따라 에러 코드를 담은 errorResponse 객체 반환
+     */
+    private static ResponseEntity<ErrorResponse> setErrorResponseForValidation(ApiException e, List<String> errorField) {
+        int errorCode = 0;
+        String errorMessage = "입력 값이 잘못되었습니다.";
+        if(errorField.contains("id")) errorCode = 101;
+        else if(errorField.contains("password")) errorCode = 102;
+        else if(errorField.contains("email")) errorCode = 103;
+        else errorCode = 100;
+        ErrorResponse errorResponse = new ErrorResponse(e.getStatus().value(), errorMessage, errorCode);
+        return new ResponseEntity<>(errorResponse, e.getStatus());
     }
 
     /**

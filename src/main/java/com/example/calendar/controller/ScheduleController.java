@@ -1,5 +1,7 @@
 package com.example.calendar.controller;
 
+import com.example.calendar.domain.Schedule;
+import com.example.calendar.domain.Writer;
 import com.example.calendar.dto.*;
 import com.example.calendar.exception.ApiException;
 import com.example.calendar.service.CalendarService;
@@ -7,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -49,8 +52,8 @@ public class ScheduleController {
      * @param id 작성자 아이디(고유 식별자)
      * @return 작성자가 작성한 일정 리스트
      */
-    @GetMapping("/schedule-from-writer")
-    public List<ScheduleDisplay> getScheduleByWriterId(UUID id) {
+    @GetMapping("/schedule-from-writer/{id}")
+    public List<ScheduleDisplay> getScheduleByWriterId(@PathVariable UUID id) {
         return calendarService.findScheduleByWriterId(id);
     }
 
@@ -59,8 +62,8 @@ public class ScheduleController {
      * @param id 고유 식별자
      * @return 조회 한 일정 정보
      */
-    @GetMapping
-    public ScheduleDisplay getSchedule(UUID id) {
+    @GetMapping("/{id}")
+    public ScheduleDisplay getSchedule(@PathVariable UUID id) {
         return calendarService.findScheduleById(id);
     }
 

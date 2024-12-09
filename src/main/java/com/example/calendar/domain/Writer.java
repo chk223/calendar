@@ -1,13 +1,10 @@
 package com.example.calendar.domain;
 
-import com.example.calendar.validation.ValidMessage;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Getter
@@ -17,16 +14,24 @@ public class Writer {
     private String name;
     @Setter
     private String email;
-    private final LocalDateTime joinedAt;
+    private final ZonedDateTime joinedAt;
     @Setter
-    private LocalDateTime updatedAt;
+    private ZonedDateTime updatedAt;
+
+    public Writer(UUID id, String name, String email, ZonedDateTime joinedAt, ZonedDateTime updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.joinedAt = joinedAt;
+        this.updatedAt = updatedAt;
+    }
 
     public Writer(String name, String email) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.email = email;
-        this.joinedAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.joinedAt = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        this.updatedAt = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
 }

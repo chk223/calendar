@@ -18,9 +18,7 @@
 > 
 > ## Request:
 > 
-> {<br> "todo" : "What should I do?",<br>
-> "writerId" : "d0614652-a3ea-4d1d-bef6-73955cb188a9", <br>
->"password" : "123" <br>}
+> ![add_schedule.png](src/main/resources/image/api/add_schedule.png)
 > 
 > ## Response:
 > x
@@ -37,21 +35,16 @@
 > `get`
 >
 > ## URL:
-> `/schedule/all-schedule`
+> `/schedule/all-schedule`<br>
+> 
+> ** 쿼리 파라미터 포함 url: `/schedule/all-schedule?page=3&size=2`
 >
 > ## Request:
 >
-> x
+> ![all_schedule_request.png](src/main/resources/image/api/all_schedule_request.png)
 >
 > ## Response:
-> {<br>"todo": "What should I do?1",<br>
-> "name": "Kim1",<br>
-> "createdAt": "2024-02-12",<br>
-> "editedAt": "2024-02-12"<br>},<br>
-> {<br>"todo": "What should I do?",<br>
-> "name": "Kim",<br>
-> "createdAt": "2024-02-12",<br>
-> "editedAt": "2024-02-12"<br>}
+> ![img.all_schedule_response](src/main/resources/image/api/all_schedule_response.png)
 >
 > ## 상세코드:
 >

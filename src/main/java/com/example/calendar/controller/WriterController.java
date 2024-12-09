@@ -48,8 +48,8 @@ public class WriterController {
      * @param id 고유 식별자
      * @return 특정 작성자 정보
      */
-    @GetMapping
-    public WriterDisplay getWriterInfo(UUID id) {
+    @GetMapping("/{id}")
+    public WriterDisplay getWriterInfo(@PathVariable UUID id) {
         return writerService.writerInfo(id);
     }
 

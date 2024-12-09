@@ -6,7 +6,7 @@ import com.example.calendar.dto.WriterUpdateInput;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -37,7 +37,7 @@ public class MemoryWriterRepository implements WriterRepository{
         Writer writer = writerStorage.get(updateInput.getId());
         writer.setName(updateInput.getName());
         writer.setEmail(updateInput.getEmail());
-        writer.setUpdatedAt(LocalDateTime.now());
+        writer.setUpdatedAt(ZonedDateTime.now());
         writerStorage.put(writer.getId(), writer);
     }
 

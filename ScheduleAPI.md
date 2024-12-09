@@ -20,7 +20,7 @@
 > 
 > ## Request:
 > 
-> ![add_schedule.png](src/main/resources/image/api/add_schedule.png)
+> ![add_schedule.png](src/main/resources/image/api/schedule/add_schedule.png)
 > 
 > ## Response:
 > x
@@ -43,10 +43,10 @@
 >
 > ## Request:
 >
-> ![all_schedule_request.png](src/main/resources/image/api/all_schedule_request.png)
+> ![all_schedule_request.png](src/main/resources/image/api/schedule/all_schedule_request.png)
 >
 > ## Response:
-> ![img.all_schedule_response](src/main/resources/image/api/all_schedule_response.png)
+> ![img.all_schedule_response](src/main/resources/image/api/schedule/all_schedule_response.png)
 >
 > ## 상세코드:
 >
@@ -66,10 +66,10 @@
 >
 > ## Request:
 >
-> ![find_schedule_request.png](src/main/resources/image/api/find_schedule_request.png)
+> ![find_schedule_request.png](src/main/resources/image/api/schedule/find_schedule_request.png)
 >
 > ## Response:
-> ![find_schedule_response.png](src/main/resources/image/api/find_schedule_response.png)
+> ![find_schedule_response.png](src/main/resources/image/api/schedule/find_schedule_response.png)
 >
 > ## 상세코드:
 >
@@ -90,10 +90,10 @@
 >
 > ## Request:
 >
-> ![find_by_writerId_schedule_request.png](src/main/resources/image/api/find_by_writerId_schedule_request.png)
+> ![find_by_writerId_schedule_request.png](src/main/resources/image/api/schedule/find_by_writerId_schedule_request.png)
 >
 > ## Response:
-> ![find_by_writerId_schedule_response.png](src/main/resources/image/api/find_by_writerId_schedule_response.png)
+> ![find_by_writerId_schedule_response.png](src/main/resources/image/api/schedule/find_by_writerId_schedule_response.png)
 > ## 상세코드:
 >
 > 200: 정상 등록
@@ -111,7 +111,7 @@
 >
 > ## Request:
 >
-> ![update_schedule.png](src/main/resources/image/api/update_schedule.png)
+> ![update_schedule.png](src/main/resources/image/api/schedule/update_schedule.png)
 }
 >
 > ## Response:
@@ -135,7 +135,7 @@
 >
 > ## Request:
 >
-> ![delete_schedule.png](src/main/resources/image/api/delete_schedule.png)
+> ![delete_schedule.png](src/main/resources/image/api/schedule/delete_schedule.png)
 >
 > ## Response:
 > x

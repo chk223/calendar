@@ -24,7 +24,7 @@ public class MemoryWriterRepository implements WriterRepository{
     }
     @Override
     public Optional<Writer> find(UUID id) {
-        return Optional.of(writerStorage.get(id));
+        return Optional.ofNullable(writerStorage.get(id));
     }
 
     @Override

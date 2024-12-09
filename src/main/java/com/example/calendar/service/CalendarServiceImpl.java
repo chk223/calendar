@@ -40,7 +40,7 @@ public class CalendarServiceImpl implements CalendarService{
         PageRequest pageRequest = new PageRequest(page,size);
         List<Schedule> scheduleList = scheduleRepository.findAll(pageRequest.getStartPoint(), pageRequest.getSize());
         List<ScheduleDisplay> scheduleDisplayList = getScheduleDisplays(scheduleList);
-        return new Page<>(scheduleDisplayList,totalCountOfSchedule,pageRequest.getPage(),pageRequest.getSize());
+        return new Page<>(scheduleDisplayList,totalCountOfSchedule,pageRequest.getPage()+1,pageRequest.getSize());
     }
 
     @Override
@@ -89,12 +89,8 @@ public class CalendarServiceImpl implements CalendarService{
      * @return 작성자가 작성한 일정 리스트
      */
     private List<Schedule> getSchedulesByWriterId(UUID id) {
-        return Optional.ofNullable(scheduleRepository.findByWriterId(id))
-                .orElseThrow(()-> {
-                    log.warn("해당 id의 작성자가 작성 한 할 일이 목록에 없습니다. 입력한 id={}", id);
-                    ErrorMessage errorMessage = ErrorMessage.SCHEDULE_NOT_FOUND;
-                    return new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
-                });
+        Writer writer = findWriter(id);
+        return scheduleRepository.findByWriterId(writer.getId());
     }
 
 
@@ -106,7 +102,7 @@ public class CalendarServiceImpl implements CalendarService{
     private Writer findWriter(UUID id) {
         return writerRepository.find(id)
                 .orElseThrow(() -> {
-                    log.warn("해당 id를 가진 할 일이 목록에 없습니다. 입력한 id={}", id);
+                    log.warn("해당 id를 가진 할 일이 목록에 없습니다. 입력한 id={}", id);//
                     ErrorMessage errorMessage = ErrorMessage.WRITER_NOT_FOUND;
                     return new ApiException(errorMessage.getMessage(), errorMessage.getStatus());
                 });

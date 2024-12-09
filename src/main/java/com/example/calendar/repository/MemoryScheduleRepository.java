@@ -16,9 +16,10 @@ public class MemoryScheduleRepository implements ScheduleRepository {
     private final Map<UUID, Schedule> scheduleStorage = new ConcurrentHashMap<>();
 
     @Override
-    public void create(Schedule schedule) {
+    public Schedule create(Schedule schedule) {
         scheduleStorage.put(schedule.getId(), schedule);
         log.info("schedule id= {}" , schedule.getId());
+        return schedule;
     }
 
     @Override
@@ -38,14 +39,7 @@ public class MemoryScheduleRepository implements ScheduleRepository {
 
     @Override
     public Optional<Schedule> find(UUID id) {
-        return Optional.of(scheduleStorage.get(id));
-    }
-
-    @Override
-    public List<Schedule> findByWriterId(UUID id) {
-        return scheduleStorage.values().stream().filter(schedule -> schedule.getWriterId().equals(id))
-                .sorted(Comparator.comparing(Schedule::getUpdatedAt))
-                .toList();
+        return Optional.ofNullable(scheduleStorage.get(id));
     }
 
     @Override

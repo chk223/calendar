@@ -1,9 +1,11 @@
 <a id="top"></a>
+[Read.me로 돌아가기](README.md)
 > # Calendar API - Schedule
 > ## schedule api 링크<br>
 > [일정추가](#일정-추가)<br>
 > [모든 일정 조회](#모든-일정-조회)<br>
 > [특정 일정 조회](#특정-일정-조회)<br>
+> [특정 작성자의 일정 조회](#특정-작성자의-일정-조회)<br>
 > [일정 수정](#일정-수정)<br>
 > [일정 삭제](#일정-삭제)<br>
 
@@ -60,17 +62,14 @@
 > `get`
 >
 > ## URL:
-> `/schedule`
+> `/schedule/{id}`
 >
 > ## Request:
 >
-> {id: "ad1cfe52-e419-4905-a6b0-3410552b7d1b"}
+> ![find_schedule_request.png](src/main/resources/image/api/find_schedule_request.png)
 >
 > ## Response:
-> {<br>"todo": "What should I do?",<br>
-> "name": "Kim",<br>
-> "createdAt": "2024-02-12",<br>
-> "editedAt": "2024-02-12"<br>}
+> ![find_schedule_response.png](src/main/resources/image/api/find_schedule_response.png)
 >
 > ## 상세코드:
 >
@@ -78,6 +77,28 @@
 > 
 [맨 위로](#top)
 
+
+>
+> ## 기능:
+> ### 특정 작성자의 일정 조회
+>
+> ## Method:
+> `get`
+>
+> ## URL:
+> `/schedule/{id}`
+>
+> ## Request:
+>
+> ![find_by_writerId_schedule_request.png](src/main/resources/image/api/find_by_writerId_schedule_request.png)
+>
+> ## Response:
+> ![find_by_writerId_schedule_response.png](src/main/resources/image/api/find_by_writerId_schedule_response.png)
+> ## 상세코드:
+>
+> 200: 정상 등록
+>
+[맨 위로](#top)
 
 > ## 기능:
 > ### 일정 수정
@@ -90,10 +111,7 @@
 >
 > ## Request:
 >
-> {<br>
-"id": "d985c1a1-6e0c-466a-853f-c322a64182da",<br>
-"todo": "I should go home",<br>
-"password": "123"<br>
+> ![update_schedule.png](src/main/resources/image/api/update_schedule.png)
 }
 >
 > ## Response:
@@ -117,10 +135,7 @@
 >
 > ## Request:
 >
-> {<br>
-"id" : "d985c1a1-6e0c-466a-853f-c322a64182da",<br>
-"password" : "123"<br>
-}
+> ![delete_schedule.png](src/main/resources/image/api/delete_schedule.png)
 >
 > ## Response:
 > x

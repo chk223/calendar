@@ -1,4 +1,5 @@
 <a id="top"></a>
+[Read.me로 돌아가기](README.md)
 > # Calendar API - Writer
 > ## Writer api 링크<br>
 > [작성자 추가](#작성자-추가)<br>
@@ -18,8 +19,7 @@
 >
 > ## Request:
 >
-> {<br>"name": "kim",<br>
-"email": "kim@naver.com"<br>}
+> ![add-writer.png](src/main/resources/image/api/writer/add-writer.png)
 >
 > ## Response:
 > x
@@ -43,18 +43,7 @@
 > x
 >
 > ## Response:
-> {<br>
-"name": "kim1",<br>
-"email": "kim1@naver.com",<br>
-"joinedAt": "2024-03-12",<br>
-"updatedAt": "2024-03-12"<br>
-},<br>
-{<br>
-"name": "kim",<br>
-"email": "kim@naver.com",<br>
-"joinedAt": "2024-03-12",<br>
-"updatedAt": "2024-03-12"<br>
-}
+> ![all_writer.png](src/main/resources/image/api/writer/all_writer.png)
 >
 > ## 상세코드:
 >
@@ -72,15 +61,10 @@
 > `/writer`
 >
 > ## Request:
-> { "id" : "e24650f5-88ca-409b-8c13-14938d46f6b3"}
+> ![find_writer.png](src/main/resources/image/api/writer/find_writer_request.png)
 >
 > ## Response:
-> {<br>
-"name": "kim",<br>
-"email": "kim@naver.com",<br>
-"joinedAt": "2024-03-12",<br>
-"updatedAt": "2024-03-12"<br>
-}
+> ![find_writer_response.png](src/main/resources/image/api/writer/find_writer_response.png)
 >
 > ## 상세코드:
 >
@@ -98,11 +82,7 @@
 > `/writer`
 >
 > ## Request:
-> {<br>
-> "id" : "7ec32069-1179-470e-ab57-ae6d4d3fb009",<br>
-"name" : "Lee",<br>
-"email" : "Lee@nvaer.com"<br>
-> }
+> ![update_writer.png](src/main/resources/image/api/writer/update_writer.png)
 >
 > ## Response:
 > x
@@ -123,9 +103,7 @@
 > `/writer`
 >
 > ## Request:
-> {<br>
-> "id" : "09d66954-b28c-4338-9ba5-16b049120d51"<br>
-> }
+> ![delete_writer.png](src/main/resources/image/api/writer/delete_writer.png)
 >
 > ## Response:
 > x

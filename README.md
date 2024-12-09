@@ -7,6 +7,6 @@
 
 > E-R 다이어그램
 > 
-> ![erdimg1.png](src/main/resources/image/erd/erdimg2.png)
+> ![erdimg1.png](src/main/resources/image/erd/erdImage.png)
 > 
 > 
